@@ -13,8 +13,8 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
-        // only posts authored by did:web users
-        return create.author.startsWith("did:web:");
+        // only posts authored by did:web users, excluding the Eclipse Nostr bridge
+        return create.author.startsWith("did:web:") && !create.author.endsWith(".eclipse.pub");
       })
       .map((create) => {
         // map did:web user posts to DB rows
